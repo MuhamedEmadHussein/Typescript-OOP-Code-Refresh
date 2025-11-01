@@ -1,4 +1,4 @@
-# 🧠 TypeScript OOP & Generics Example
+# 🧠 TypeScript OOP & Generics
 
 This project demonstrates **TypeScript fundamentals and advanced OOP concepts**, including **classes**, **interfaces**, **enums**, **inheritance**, **generics**, and **type inference** — all in one practical example.
 
