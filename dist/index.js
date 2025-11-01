@@ -204,3 +204,79 @@ account.withdraw(100);
 account.printStatement();
 console.log("Current Balance:", account.balance);
 console.log("Bank Name:", BankAccount.getBankName());
+// ====================================================================
+// 🧱 POLYMORPHISM and ABSTRACTION EXAMPLES
+// ====================================================================
+// -------------------- Abstraction Example --------------------
+// Abstract class defines a contract that derived classes must follow
+class Shape {
+    describe() {
+        console.log(`This is a ${this.constructor.name}.`);
+    }
+}
+// Concrete subclass 1
+class Circle extends Shape {
+    constructor(radius) {
+        super();
+        this.radius = radius;
+    }
+    area() {
+        return Math.PI * this.radius ** 2;
+    }
+    perimeter() {
+        return 2 * Math.PI * this.radius;
+    }
+}
+// Concrete subclass 2
+class Rectangle extends Shape {
+    constructor(width, height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+    area() {
+        return this.width * this.height;
+    }
+    perimeter() {
+        return 2 * (this.width + this.height);
+    }
+}
+// -------------------- Polymorphism Example --------------------
+// Both Circle and Rectangle are treated as Shape (common interface)
+function printShapeInfo(shape) {
+    shape.describe();
+    console.log(`Area: ${shape.area().toFixed(2)}`);
+    console.log(`Perimeter: ${shape.perimeter().toFixed(2)}\n`);
+}
+console.log("\n================= ABSTRACTION & POLYMORPHISM EXAMPLES =================");
+const shapes = [
+    new Circle(5),
+    new Rectangle(4, 6),
+];
+for (const s of shapes) {
+    printShapeInfo(s); // <-- polymorphism in action (different implementations)
+}
+class CreditCardPayment {
+    constructor(cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+    pay(amount) {
+        console.log(`💳 Paid $${amount} using Credit Card [${this.cardNumber.slice(-4)}]`);
+    }
+}
+class PayPalPayment {
+    constructor(email) {
+        this.email = email;
+    }
+    pay(amount) {
+        console.log(`🅿️ Paid $${amount} via PayPal (${this.email})`);
+    }
+}
+console.log("\n================= INTERFACE-BASED POLYMORPHISM =================");
+function processPayment(payment, amount) {
+    payment.pay(amount); // same method call, different behavior (polymorphism)
+}
+const creditCard = new CreditCardPayment("1234-5678-9012-3456");
+const paypal = new PayPalPayment("user@example.com");
+processPayment(creditCard, 150);
+processPayment(paypal, 89.99);

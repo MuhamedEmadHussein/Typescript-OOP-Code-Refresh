@@ -291,3 +291,102 @@ account.withdraw(100);
 account.printStatement();
 console.log("Current Balance:", account.balance);
 console.log("Bank Name:", BankAccount.getBankName());
+
+
+// ====================================================================
+// 🧱 POLYMORPHISM and ABSTRACTION EXAMPLES
+// ====================================================================
+
+// -------------------- Abstraction Example --------------------
+// Abstract class defines a contract that derived classes must follow
+abstract class Shape {
+  abstract area(): number;
+  abstract perimeter(): number;
+
+  describe(): void {
+    console.log(`This is a ${this.constructor.name}.`);
+  }
+}
+
+// Concrete subclass 1
+class Circle extends Shape {
+  constructor(public radius: number) {
+    super();
+  }
+
+  area(): number {
+    return Math.PI * this.radius ** 2;
+  }
+
+  perimeter(): number {
+    return 2 * Math.PI * this.radius;
+  }
+}
+
+// Concrete subclass 2
+class Rectangle extends Shape {
+  constructor(public width: number, public height: number) {
+    super();
+  }
+
+  area(): number {
+    return this.width * this.height;
+  }
+
+  perimeter(): number {
+    return 2 * (this.width + this.height);
+  }
+}
+
+// -------------------- Polymorphism Example --------------------
+// Both Circle and Rectangle are treated as Shape (common interface)
+function printShapeInfo(shape: Shape): void {
+  shape.describe();
+  console.log(`Area: ${shape.area().toFixed(2)}`);
+  console.log(`Perimeter: ${shape.perimeter().toFixed(2)}\n`);
+}
+
+console.log("\n================= ABSTRACTION & POLYMORPHISM EXAMPLES =================");
+
+const shapes: Shape[] = [
+  new Circle(5),
+  new Rectangle(4, 6),
+];
+
+for (const s of shapes) {
+  printShapeInfo(s); // <-- polymorphism in action (different implementations)
+}
+
+// -------------------- More Polymorphism: Using Interfaces --------------------
+// Shared interface for polymorphic behavior
+interface PaymentMethod {
+  pay(amount: number): void;
+}
+
+class CreditCardPayment implements PaymentMethod {
+  constructor(private cardNumber: string) {}
+
+  pay(amount: number): void {
+    console.log(`💳 Paid $${amount} using Credit Card [${this.cardNumber.slice(-4)}]`);
+  }
+}
+
+class PayPalPayment implements PaymentMethod {
+  constructor(private email: string) {}
+
+  pay(amount: number): void {
+    console.log(`🅿️ Paid $${amount} via PayPal (${this.email})`);
+  }
+}
+
+console.log("\n================= INTERFACE-BASED POLYMORPHISM =================");
+
+function processPayment(payment: PaymentMethod, amount: number): void {
+  payment.pay(amount); // same method call, different behavior (polymorphism)
+}
+
+const creditCard = new CreditCardPayment("1234-5678-9012-3456");
+const paypal = new PayPalPayment("user@example.com");
+
+processPayment(creditCard, 150);
+processPayment(paypal, 89.99);
